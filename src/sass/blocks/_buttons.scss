@@ -1,0 +1,26 @@
+.btn {
+    padding: 15px 40px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: 0.2px;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    background-color: transparent;
+    border-radius: 5px;
+    transition: all .3s;
+    &:hover {
+        text-decoration: none;
+        color: var(--color-primary);
+        transform: scale(1.05);
+    }
+
+    &_primary {
+        background-color: var(--color-primary);
+        color: white;
+        &:hover {
+            color: white;
+        }
+        margin-right: 10px;
+    }
+}

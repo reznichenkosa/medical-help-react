@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import './sass/style.scss';
+
+import Home from './pages/Home';
+import Contacts from './pages/Contacts';
+import Cabinet from './pages/Cabinet';
+import Header from './components/Header';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import Page404 from './pages/Page404';
+import { AnimatePresence } from 'framer-motion';
+import { AuthProvider } from './HOC/AuthProvider';
+import RequireAuth from './HOC/RequireAuth';
+import Modal from './components/Modal';
+import { useState } from 'react';
 
 function App() {
+
+    const location = useLocation();
+    const [showModal, setShowModal] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+        <Header setShowModal={setShowModal}/>
+
+        <main id="main">
+        <AnimatePresence exitBeforeEnter initial={false}>
+            <Routes key={location.pathname} location={location}>
+                <Route path='/' element={<Home setShowModal={setShowModal}/>} />
+                <Route path='/cabinet' element={<RequireAuth><Cabinet /></RequireAuth>} />
+                <Route path='/contacts' element={<Contacts />} />   
+                <Route path='*' element={<Page404 />} />   
+            </Routes>
+        </AnimatePresence>
+
+        </main>
+
+        <AnimatePresence>
+          {showModal && <Modal key="modal" setShowModal={setShowModal}/>}
+        </AnimatePresence>
+    </AuthProvider>
+    
   );
 }
 
